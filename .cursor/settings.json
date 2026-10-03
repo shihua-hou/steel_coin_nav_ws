@@ -1,0 +1,7 @@
+{
+  "plugins": {
+    "mobbin": {
+      "enabled": true
+    }
+  }
+}

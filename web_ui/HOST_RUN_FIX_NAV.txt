@@ -1,0 +1,6 @@
+红激光问题已改代码，但 Cursor 沙箱起的进程进不了主机 ROS 图。
+请在板子本机终端（SSH / 串口，不要用 Cursor Agent 终端）执行：
+
+  bash /home/linaro/robot_ws/scripts/fix_nav.sh map_live.yaml
+
+然后刷新网页 → 重新定位。红点应为 pitch_down 校平后 0.15~1.40m 高度带。

@@ -1,0 +1,6 @@
+# 障碍高度带（相对重力对齐 / base_footprint 的 z，单位 m）
+# 导航 stage2→/scan 与建图 pcd2pgm→占用栅格 共用，改这里并同步 launch/start_quad/web_ops。
+z_min: 0.05
+z_max: 0.85
+# 说明：先把 Mid360 点云变到水平系再切这一层；不是雷达原始仰角带。
+# 与 Go2W stage2 默认高度带一致（滤地面/近腿高度，保留桌沿/墙等障碍）。

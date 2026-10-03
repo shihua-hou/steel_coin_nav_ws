@@ -1,0 +1,1 @@
+# Ignore building this package — 2D blind reloc removed; Go2W uses /initialpose + AMCL/NDT.

@@ -1,0 +1,55 @@
+<!-- 钢镚：由 Nav2 默认 navigate_through_poses_w_replanning_and_recovery.xml 去掉 BackUp 恢复动作。
+     雷达低头安装、正后方在障碍高度是盲区，禁止任何倒车（2026-10-01）。 -->
+
+<!--
+  This Behavior Tree replans the global path periodically at 1 Hz through an array of poses continuously
+   and it also has recovery actions specific to planning / control as well as general system issues.
+-->
+<!-- 2026-10-01 动态避障：人站在路线上时，原来是「清局部代价图→继续走→又检测到碰撞」循环，
+     再「原地转 90°」后转回来撞人（人在雷达 0.5 m 盲区里，清图后看不见）。
+     改为：碰撞/规划失败先 Wait，等人让开或全局图（已加 /scan 障碍层）绕行；
+     兜底只清全局图（局部图永不自动清，RPP 碰撞检测靠它）；去掉 Spin（RPP 自己会原地转向）。 -->
+<!-- 2026-10-02 只在路线失效时重规划：原来每秒无条件重规划，激光噪点/人旁零星点会让路线来回改。
+     现在每秒先检查：目标没变 且 IsPathValid（路线中心线 ±内切半径内没有障碍）→ 沿用旧路线；
+     否则才重算。首次规划照常（GlobalUpdatedGoal 首次返回 SUCCESS）。 -->
+<!-- 2026-10-02 等待缩短：规划失败 2→1 s、接触停 3→1 s、外层 5→2 s（人旁窄缝走走停停） -->
+<root main_tree_to_execute="MainTree">
+  <BehaviorTree ID="MainTree">
+    <RecoveryNode number_of_retries="6" name="NavigateRecovery">
+      <PipelineSequence name="NavigateWithReplanning">
+        <RateController hz="0.333">
+          <RecoveryNode number_of_retries="1" name="ComputePathThroughPoses">
+            <Fallback name="ReplanOnlyIfNeeded">
+              <ReactiveSequence name="KeepPathIfStillValid">
+                <Inverter>
+                  <GlobalUpdatedGoal/>
+                </Inverter>
+                <IsPathValid path="{path}"/>
+              </ReactiveSequence>
+              <ReactiveSequence>
+                <!-- 默认 robot_base_frame=base_link。本栈只有 map→odom→base_footprint，
+                     不改的话多目标一开始就报 map 与 base_link 不在同一棵树，导航直接失败。 -->
+                <RemovePassedGoals input_goals="{goals}" output_goals="{goals}" radius="0.7" robot_base_frame="base_footprint" global_frame="map"/>
+                <ComputePathThroughPoses goals="{goals}" path="{path}" planner_id="GridBased"/>
+              </ReactiveSequence>
+            </Fallback>
+            <Wait wait_duration="1"/>
+          </RecoveryNode>
+        </RateController>
+        <RecoveryNode number_of_retries="1" name="FollowPath">
+          <FollowPath path="{path}" controller_id="FollowPath"/>
+          <Wait wait_duration="1"/>
+        </RecoveryNode>
+      </PipelineSequence>
+      <ReactiveFallback name="RecoveryFallback">
+        <GoalUpdated/>
+        <RoundRobin name="RecoveryActions">
+          <Wait wait_duration="2"/>
+          <Sequence name="ClearingActions">
+            <ClearEntireCostmap name="ClearGlobalCostmap-Subtree" service_name="global_costmap/clear_entirely_global_costmap"/>
+          </Sequence>
+        </RoundRobin>
+      </ReactiveFallback>
+    </RecoveryNode>
+  </BehaviorTree>
+</root>

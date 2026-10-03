@@ -1,0 +1,26 @@
+[Unit]
+Description=Steel-coin web console watchdog (HTTP 8080 + web_ops 8090 + rosbridge 9090)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=linaro
+Group=linaro
+WorkingDirectory=/home/linaro/steel_coin_nav_ws
+Environment=HOME=/home/linaro
+Environment=ROS_HOME=/tmp/ros_home
+Environment=PYTHONUNBUFFERED=1
+OOMScoreAdjust=-400
+ExecStartPre=/bin/mkdir -p /tmp/ros_home/log
+ExecStart=/usr/bin/python3 /home/linaro/steel_coin_nav_ws/scripts/web_console_watchdog.py
+ExecStop=/home/linaro/steel_coin_nav_ws/scripts/stop_web_console.sh
+Restart=always
+RestartSec=3
+# KillMode=process：只信号看门狗主进程；三件套启停交给 ExecStop 精确杀，
+# 绝不用 control-group 误杀同 cgroup 里的 FAST-LIO/Nav2。
+KillMode=process
+TimeoutStopSec=20
+
+[Install]
+WantedBy=multi-user.target

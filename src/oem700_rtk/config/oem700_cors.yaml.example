@@ -1,0 +1,8 @@
+# Copy to /home/linaro/steel_coin_nav_ws/config/oem700_cors.yaml
+# That file is gitignored. Do not commit the password.
+host: vrs.sixents.com
+port: 8002
+mount_point: RTCM32_GRECJ2
+username: YOUR_ACCOUNT
+password: YOUR_PASSWORD
+upload_gga: 1

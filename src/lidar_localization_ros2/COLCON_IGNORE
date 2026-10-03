@@ -1,0 +1,2 @@
+# Staged from Go2W for future NDT map→odom (needs sibling map.pcd + build).
+# Production nav currently: manual /initialpose → AMCL. Do not build until PCD maps ready.

@@ -1,0 +1,4 @@
+# Optional stable name. USB creates four CDC ports; the driver probes
+# whichever ttyACM/ttyUSB emits NMEA, and prefers /dev/oem700_nmea when present.
+# Fill idVendor/idProduct from `udevadm info -a /dev/ttyACM0` after plugging in.
+# SUBSYSTEM=="tty", ATTRS{idVendor}=="0000", ATTRS{idProduct}=="0000", SYMLINK+="oem700_nmea", MODE="0666"

@@ -1,0 +1,6 @@
+{
+  "source": "mujoco_menagerie unitree_go2 BSD-3",
+  "triangles": 33909,
+  "file": "go2_stand.bin",
+  "format": "GO2S"
+}

@@ -1,0 +1,52 @@
+/**:
+  ros__parameters:
+    # 定位模式：加载先验地图重定位，不回写地图
+    lio.map.save_map: false
+    lio.map.if_filter: false
+    lio.map.save_map_dir: "map"
+    lio.map.map_name: "map.pcd"
+    lio.map.ds_size: 0.05
+    lio.map.save_interval: 500
+
+    lio.ros.lidar_topic: "/livox/lidar"
+    lio.ros.imu_topic: "/livox/imu"
+
+    lio.sensor.lidar_type: 1
+    lio.sensor.blind: 0.5
+    lio.sensor.maxrange: 30.0
+    lio.sensor.filter_rate: 1
+    lio.sensor.enable_downsample: true
+    lio.sensor.voxel_fliter_size: 0.3
+    lio.sensor.gravity_norm: 9.7946
+    lio.sensor.imu_type: 1
+    lio.sensor.imu_na: 0.1
+    lio.sensor.imu_ng: 0.1
+    lio.sensor.imu_nba: 0.0001
+    lio.sensor.imu_nbg: 0.0001
+
+    lio.extrinsic.lidar_imu: [-0.011, -0.02329, 0.04412,
+                              1.0, 0.0, 0.0,
+                              0.0, 1.0, 0.0,
+                              0.0, 0.0, 1.0]
+    lio.extrinsic.odom_robo: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+    lio.hash_map.hash_capacity: 2000000
+    lio.hash_map.vox_resolution: 0.35
+
+    lio.kf.kf_type: 0
+    lio.kf.kf_max_iterations: 6
+    lio.kf.kf_align_gravity: true
+    lio.kf.kf_quit_eps: 0.001
+
+    lio.output.robot: true
+    lio.output.map: true
+    lio.output.dense: true
+    lio.output.pub_step: 1
+
+    # 重定位：初值 [x, y, z, roll, pitch, yaw]（弧度）。
+    # 设为地图外 -> reloc 初始化一直失败重试，保持 /initialpose 订阅，
+    # 等待 3D-BBS(全局重定位) 或网页「设初始位姿」给真实位姿后再精配准。
+    lio.relocation.update_map: false
+    lio.relocation.init_pose: [50.0, 50.0, 0.0, 0.0, 0.0, 0.0]
+
+    lio.eva.timer: true

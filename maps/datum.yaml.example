@@ -1,0 +1,12 @@
+# Copy to maps/<map_name>.datum.yaml after one outdoor calibration.
+# Fusion stays off until that file exists. Angles are radians.
+# lat0/lon0/alt0: WGS84 of the occupancy-map origin (yaml origin is NOT this).
+# yaw_enu: map +x relative to East, CCW toward North.
+# antenna_xyz: antenna phase center in base_footprint, metres.
+# heading_offset: dual-antenna baseline relative to the dog's forward axis.
+lat0: 0.0
+lon0: 0.0
+alt0: 0.0
+yaw_enu: 0.0
+antenna_xyz: [0.0, 0.0, 0.0]
+heading_offset: 0.0

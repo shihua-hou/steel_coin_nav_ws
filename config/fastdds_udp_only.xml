@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  钢镚：FastDDS 关闭共享内存（SHM）传输，只走 UDPv4（本机进程间经回环口）。
+  原因（2026-10-01）：Humble 自带 FastDDS 2.6 在高负载下会把仍存活进程的 SHM 端口误判为僵尸并删除重建，
+  老进程从此收不到新进程的数据：web_ops 收不到电量（SDK 误报未通）、rosbridge 不转发、
+  Nav2 组件加载收不到响应（定位半边没起来）、ros2 CLI 看不到节点。
+  由 start_quad.sh / start_ui.sh / web 控制台看门狗导出 FASTRTPS_DEFAULT_PROFILES_FILE 生效。
+-->
+<profiles xmlns="http://www.eprosima.com/XMLSchemas/fastRTPS_Profiles">
+  <transport_descriptors>
+    <transport_descriptor>
+      <transport_id>udp_only</transport_id>
+      <type>UDPv4</type>
+    </transport_descriptor>
+  </transport_descriptors>
+  <participant profile_name="udp_only_participant" is_default_profile="true">
+    <rtps>
+      <userTransports>
+        <transport_id>udp_only</transport_id>
+      </userTransports>
+      <useBuiltinTransports>false</useBuiltinTransports>
+    </rtps>
+  </participant>
+</profiles>

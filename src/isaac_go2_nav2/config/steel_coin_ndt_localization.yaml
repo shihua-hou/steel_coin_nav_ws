@@ -1,0 +1,24 @@
+# Steel-coin / Go2W-style localization profile (NDT against map.pcd).
+# Not launched by default — occupancy maps today are PGM+AMCL.
+# When maps/<name>.pcd exists next to maps/<name>.yaml, start with:
+#   ros2 launch isaac_go2_nav2 steel_coin_ndt_localization.launch.py \
+#     map_pcd:=/path/to/map.pcd cloud_topic:=/cloud_registered
+#
+# Frames must match FAST-LIO odom_filter: map / odom / base_footprint.
+/**:
+  ros__parameters:
+    registration_method: "NDT_OMP"
+    score_threshold: 2.5
+    ndt_resolution: 1.0
+    ndt_num_threads: 4
+    voxel_leaf_size: 0.25
+    use_pcd_map: true
+    map_path: ""
+    set_initial_pose: false
+    use_odom: true
+    use_imu: false
+    use_continuous_time_deskew: false
+    enable_map_odom_tf: true
+    global_frame_id: "map"
+    odom_frame_id: "odom"
+    base_frame_id: "base_footprint"

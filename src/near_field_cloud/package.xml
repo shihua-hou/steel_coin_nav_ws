@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>near_field_cloud</name>
+  <version>0.1.0</version>
+  <description>钢镚：从原始 Livox CustomMsg 提取雷达近场点（补 FAST-LIO blind 盲区），发布 /near_cloud 给 stage2</description>
+  <maintainer email="linaro@example.com">linaro</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>rclcpp</depend>
+  <depend>sensor_msgs</depend>
+  <depend>livox_ros_driver2</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

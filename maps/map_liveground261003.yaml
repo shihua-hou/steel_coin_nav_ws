@@ -1,0 +1,6 @@
+image: map_liveground261003.pgm
+resolution: 0.050000
+origin: [-27.854025, -33.605821, 0.0]
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.196
